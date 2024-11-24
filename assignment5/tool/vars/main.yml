@@ -1,6 +1,11 @@
 ---
 # vars file for tool
 
+db_user: mysqluser
+db_pass: user1234
+db_name: school
+table_name: student
+
 mysql_vars:
       Debian:
         mysql_package: 
