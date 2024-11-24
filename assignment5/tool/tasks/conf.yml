@@ -1,0 +1,10 @@
+---
+- name: Copy MySQL configuration
+  template:
+    src: my.cnf.j2
+    dest: "{{ mysql_vars[ansible_os_family]['mysql_config_file'] }}"
+    mode: '0644'
+  notify: 
+    - Start and enable MySQL service
+    - Restart MySQL
+  

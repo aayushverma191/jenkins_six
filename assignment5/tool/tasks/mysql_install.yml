@@ -1,0 +1,17 @@
+---
+- name: package update
+  apt:
+    update_cache: true
+  when: ansible_facts['os_family'] == 'Debian'
+
+- name: package update
+  yum:
+    update_cache: true
+  when: ansible_facts['os_family'] == 'RedHat'
+
+- name: Install MySQL
+  package:
+    name: "{{ item }}"
+    state: present
+  loop: "{{ mysql_vars[ansible_os_family]['mysql_package'] }}"
+

@@ -1,0 +1,12 @@
+---
+# tasks file for tool
+- name: install
+  include_tasks: mysql_install.yml
+- name: change in the config file
+  include_tasks: login.yml
+- name: MySQL configuration
+  include_tasks: conf.yml
+- name: MySQL user
+  include_tasks: user.yml
+- name: create querie
+  include_tasks: queries.yml

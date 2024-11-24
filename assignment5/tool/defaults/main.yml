@@ -1,0 +1,12 @@
+---
+# defaults file for tool
+
+mysql_version: "8.0"
+mysql_root_password: "root_password"
+mysql_bind_address: "0.0.0.0"
+mysql_port: 3306
+
+db_user: mysqluser
+db_pass: user1234
+db_name: school
+table_name: student

@@ -1,0 +1,17 @@
+---
+# vars file for tool
+
+mysql_vars:
+      Debian:
+        mysql_package: 
+          - "mysql-server-{{mysql_version}}"
+          - python3-mysqldb
+        mysql_config_file: /etc/mysql/my.cnf
+        mysql_service: mysql
+      RedHat:
+        mysql_package: 
+            - "mariadb-server-{{mysql_version}}"
+            - python3-mysqldb
+        mysql_config_file: /etc/my.cnf
+        mysql_service: mariadb
+        

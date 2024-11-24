@@ -1,0 +1,20 @@
+---
+- name: Create a database
+  mysql_query:
+    login_user: "{{ db_user }}"
+    login_password: "{{ db_pass }}"
+    query: "CREATE DATABASE IF NOT EXISTS {{ db_name }};"
+    
+- name: Create a table
+  mysql_query:
+    login_user: "{{ db_user }}"
+    login_password: "{{ db_pass }}"
+    login_db: "{{ db_name }}"
+    query: "{{ lookup('template', 'table.sql.j2') }}"
+
+- name: Insert a data in table
+  mysql_query:
+    login_user: "{{ db_user }}"
+    login_password: "{{ db_pass }}"
+    login_db: "{{ db_name }}"
+    query: "{{ lookup('template', 'data.sql.j2') }}"
