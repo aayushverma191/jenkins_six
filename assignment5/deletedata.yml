@@ -1,0 +1,17 @@
+---
+- name: Manage MySQL Database
+  hosts: all
+  become: true
+  vars:
+    db_user: mysqluser
+    db_pass: user1234
+    db_name: school
+    table_name: student   
+  tasks:
+     - name: Delete the table
+       mysql_query:
+        login_user: "{{ db_user }}"
+        login_password: "{{ db_pass }}"
+        login_db: "{{ db_name }}"
+        query: "DROP TABLE IF EXISTS {{ table_name }};"   
+  
