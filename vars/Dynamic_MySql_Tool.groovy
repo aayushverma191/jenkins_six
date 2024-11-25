@@ -1,4 +1,4 @@
-def call(String branch, String repoUrl) {
+def call(String branch, String repoUrl , String remoteUser = "ubuntu" ) {
 
 pipeline {
     agent any
@@ -11,10 +11,12 @@ pipeline {
         ANSIBLE_PLAY_PATH = "${WORKSPACE}/assignment5/toolbook.yml"
         ANSIBLE_INVENTORY_PATH = "${WORKSPACE}/assignment5/aws_ec2.yml"
         ANSIBLE_KEY = "${WORKSPACE}/assignment5/ninja.pem"
+        REMOTE_USER = "remoteUser"
+        //ANSIBLE_SSH_ARGS='-o StrictHostKeyChecking=no' ansible -m ping -i /var/lib/jenkins/workspace/project-1/assignment5/aws_ec2.yml all --private-key /var/lib/jenkins/workspace/project-1/assignment5/ninja.pem -u root
     }
     
     stages{
-        stage('clone'){
+         stage('clone'){
             steps{
                 echo "git......!! ${WORKSPACE} "
                   echo "Cloning repository..."
@@ -22,6 +24,11 @@ pipeline {
                               branches: [[name: "*/${branch}"]],
                               userRemoteConfigs: [[url: repoUrl]]])
                // git branch: 'main' , url: 'https://github.com/aayushverma191/ansible_tool.git'
+            }
+        }
+        stage('clone'){
+            steps{
+                git branch: 'main' , url: 'https://github.com/aayushverma191/jenkins_six.git'
             }
         }
         stage('User_Approval'){
@@ -32,22 +39,21 @@ pipeline {
         }
         stage('Playbook_Execution'){
             steps {
-                script{
-                        sh """
-                            ansible-playbook -i ${ANSIBLE_INVENTORY_PATH} ${ANSIBLE_PLAY_PATH} --private-key ${ANSIBLE_KEY}
-                        """
-                    //}
+                    sh """
+                        chmod 400 ${ANSIBLE_KEY}
+                        ansible-playbook -i ${ANSIBLE_INVENTORY_PATH} ${ANSIBLE_PLAY_PATH} --private-key ${ANSIBLE_KEY} -u {REMOTE_USER}
+                    """
                 }
-            }
         }
     }
    post {
-         success {
-                 slackSend(channel: 'info', message: "Build Successful: JOB-Name:- ${JOB_NAME} Build_No.:- ${BUILD_NUMBER} & Build-URL:- ${BUILD_URL}")
-             }
-         failure {
-                 slackSend(channel: 'info', message: "Build Failure: JOB-Name:- ${JOB_NAME} Build_No.:- ${BUILD_NUMBER} & Build-URL:- ${BUILD_URL}")
-             }
-     }
+          success {
+                  slackSend(channel: 'info', message: "Build Successful: JOB-Name:- ${JOB_NAME} Build_No.:- ${BUILD_NUMBER} & Build-URL:- ${BUILD_URL}")
+              }
+          failure {
+                  slackSend(channel: 'info', message: "Build Failure: JOB-Name:- ${JOB_NAME} Build_No.:- ${BUILD_NUMBER} & Build-URL:- ${BUILD_URL}")
+              }
+      }
 }
 }
+             
