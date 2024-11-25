@@ -1,4 +1,4 @@
-def call(String branch, String repoUrl , String remoteUser) {
+def call(String branch, String repoUrl , String remoteUser = 'ubuntu') {
 
 pipeline {
     agent any
