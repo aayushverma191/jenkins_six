@@ -49,7 +49,7 @@ pipeline {
                     echo "Using Remote User: ${REMOTE_USER}"
                     sh """
                         chmod 400 ${ANSIBLE_KEY}
-                        ansible-playbook -i ${ANSIBLE_INVENTORY_PATH} ${ANSIBLE_PLAY_CR_PATH} --private-key ${ANSIBLE_KEY} -u ${REMOTE_USER}
+                        ANSIBLE_SSH_ARGS='-o StrictHostKeyChecking=no' ansible-playbook -i ${ANSIBLE_INVENTORY_PATH} ${ANSIBLE_PLAY_CR_PATH} --private-key ${ANSIBLE_KEY} -u ${REMOTE_USER}
                     """
                 }
             }
@@ -71,7 +71,7 @@ pipeline {
                     echo "Using Remote User: ${REMOTE_USER}"
                     sh """
                         chmod 400 ${ANSIBLE_KEY}
-                        ansible-playbook -i ${ANSIBLE_INVENTORY_PATH} ${ANSIBLE_PLAY_DT_PATH} --private-key ${ANSIBLE_KEY} -u ${REMOTE_USER}
+                        ANSIBLE_SSH_ARGS='-o StrictHostKeyChecking=no' ansible-playbook -i ${ANSIBLE_INVENTORY_PATH} ${ANSIBLE_PLAY_DT_PATH} --private-key ${ANSIBLE_KEY} -u ${REMOTE_USER}
                     """
                 }
             }
