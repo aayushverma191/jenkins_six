@@ -23,7 +23,6 @@ pipeline {
                     checkout([$class: 'GitSCM',
                               branches: [[name: "*/${branch}"]],
                               userRemoteConfigs: [[url: repoUrl]]])
-               // git branch: 'main' , url: 'https://github.com/aayushverma191/ansible_tool.git'
             }
         }
         stage('User_Approval'){
