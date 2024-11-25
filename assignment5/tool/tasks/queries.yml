@@ -11,12 +11,15 @@
     login_db: "{{ db_name }}"
     query: "SHOW TABLES LIKE '{{ table_name }}';"
   register: table_check
-  ignore_errors: true  
+
+- name: Debug table check result
+  debug:
+    var: table_check.query_result
 
 - name: Print table already exists message
   debug:
     msg: "The table '{{ table_name }}' already exists, no need to create."
-  when: table_check.query_result | length > 0
+  when: table_check.query_result[0] | length > 0  # Check the first (and only) sublist's length
 
 - name: Create table if it doesn't exist
   mysql_query:
@@ -24,7 +27,7 @@
     login_password: "{{ db_pass }}"
     login_db: "{{ db_name }}"
     query: "{{ lookup('template', 'table.sql.j2') }}"
-  when: table_check.query_result | length == 0
+  when: table_check.query_result[0] | length == 0  # Check if the sublist is empty
   register: create_table_result
 
 - name: Print table creation message
@@ -44,7 +47,7 @@
 - name: Print message when records are already inserted
   debug:
     msg: "Data already inserted."
-  when: existing_records.query_result | length > 0
+  when: existing_records.query_result[0] | length > 0
 
 - name: Insert data into the table
   mysql_query:
@@ -52,7 +55,7 @@
     login_password: "{{ db_pass }}"
     login_db: "{{ db_name }}"
     query: "{{ lookup('template', 'data.sql.j2') }}"
-  when: existing_records.query_result | length == 0
+  when: existing_records.query_result[0] | length == 0
   register: insert_result
 
 - name: Print message when records are inserted
