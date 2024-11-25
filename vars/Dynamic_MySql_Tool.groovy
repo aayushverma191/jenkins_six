@@ -33,14 +33,10 @@ pipeline {
         }
         stage('Playbook_Execution'){
             steps {
-                script {
                     sh """
-                        REMOTE_USER = input(message: 'Enter Remote User', parameters: [string(defaultValue: 'ubuntu', description: 'Remote User')])
-                        echo "Using Remote User: ${REMOTE_USER}"
                         chmod 400 ${ANSIBLE_KEY}
                         ansible-playbook -i ${ANSIBLE_INVENTORY_PATH} ${ANSIBLE_PLAY_PATH} --private-key ${ANSIBLE_KEY} -u ${REMOTE_USER}
                     """
-                }
             }
         }
     }
