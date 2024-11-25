@@ -35,7 +35,7 @@ pipeline {
             steps {
                     sh """
                         chmod 400 ${ANSIBLE_KEY}
-                        ansible-playbook -i ${ANSIBLE_INVENTORY_PATH} ${ANSIBLE_PLAY_PATH} --private-key ${ANSIBLE_KEY} -u {REMOTE_USER}
+                        ansible-playbook -i ${ANSIBLE_INVENTORY_PATH} ${ANSIBLE_PLAY_PATH} --private-key ${ANSIBLE_KEY} -u ${REMOTE_USER}
                     """
                 }
         }
