@@ -4,5 +4,6 @@ regions:
 filters:
   tag:Name:
     - ansible
+    - redhat
 hostvars:
   ansible_user: "{{ 'ubuntu' if platform == 'ubuntu' else 'ec2-user' }}"
