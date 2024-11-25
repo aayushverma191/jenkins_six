@@ -26,11 +26,6 @@ pipeline {
                // git branch: 'main' , url: 'https://github.com/aayushverma191/ansible_tool.git'
             }
         }
-        stage('clone'){
-            steps{
-                git branch: 'main' , url: 'https://github.com/aayushverma191/jenkins_six.git'
-            }
-        }
         stage('User_Approval'){
             steps{
                 input message: 'do you want to install MYSQL', ok: 'Approved'
