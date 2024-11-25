@@ -1,4 +1,4 @@
-def call(String branch, String repoUrl , String remoteUser = 'ubuntu') {
+def call(String branch, String repoUrl , ) {
 
 pipeline {
     agent any
@@ -11,7 +11,7 @@ pipeline {
         ANSIBLE_PLAY_PATH = "${WORKSPACE}/assignment5/toolbook.yml"
         ANSIBLE_INVENTORY_PATH = "${WORKSPACE}/assignment5/aws_ec2.yml"
         ANSIBLE_KEY = "${WORKSPACE}/assignment5/ninja.pem"
-        REMOTE_USER = "remoteUser"
+        REMOTE_USER = "ubuntu"
         //ANSIBLE_SSH_ARGS='-o StrictHostKeyChecking=no' ansible -m ping -i /var/lib/jenkins/workspace/project-1/assignment5/aws_ec2.yml all --private-key /var/lib/jenkins/workspace/project-1/assignment5/ninja.pem -u root
     }
     
