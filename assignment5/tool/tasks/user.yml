@@ -1,13 +1,14 @@
 ---
-- name: creating mysql user (medium_post)
-  mysql_user:
+- name: Creating MySQL user (medium_post)
+  community.mysql.mysql_user:  
     name: "{{ db_user }}"  
     password: "{{ db_pass }}"
     priv: '*.*:ALL'
     host: '%'
     state: present
+    column_case_sensitive: false  
 
-- name: creating medium_db
-  mysql_db:
+- name: Creating medium_db
+  community.mysql.mysql_db:  
     name: "{{ db_name }}"
     state: present
