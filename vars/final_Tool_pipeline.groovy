@@ -1,4 +1,4 @@
-def call( String branch , String repoUrl )
+def call( String branch , String repoUrl ) {
 pipeline {
     agent any
     
@@ -85,4 +85,5 @@ pipeline {
                   slackSend(channel: 'info', message: "Build Failure: JOB-Name:- ${JOB_NAME} Build_No.:- ${BUILD_NUMBER} & Build-URL:- ${BUILD_URL}")
               }
     }
+}
 }
