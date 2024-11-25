@@ -12,14 +12,10 @@
     query: "SHOW TABLES LIKE '{{ table_name }}';"
   register: table_check
 
-- name: Debug table check result
-  debug:
-    var: table_check.query_result
-
 - name: Print table already exists message
   debug:
     msg: "The table '{{ table_name }}' already exists, no need to create."
-  when: table_check.query_result[0] | length > 0  # Check the first (and only) sublist's length
+  when: table_check.query_result[0] | length > 0  
 
 - name: Create table if it doesn't exist
   mysql_query:
@@ -27,7 +23,7 @@
     login_password: "{{ db_pass }}"
     login_db: "{{ db_name }}"
     query: "{{ lookup('template', 'table.sql.j2') }}"
-  when: table_check.query_result[0] | length == 0  # Check if the sublist is empty
+  when: table_check.query_result[0] | length == 0 
   register: create_table_result
 
 - name: Print table creation message
@@ -62,3 +58,4 @@
   debug:
     msg: "Data inserted successfully."
   when: insert_result.changed
+  
