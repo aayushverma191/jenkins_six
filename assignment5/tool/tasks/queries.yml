@@ -1,20 +1,61 @@
----
 - name: Create a database
   mysql_query:
     login_user: "{{ db_user }}"
     login_password: "{{ db_pass }}"
     query: "CREATE DATABASE IF NOT EXISTS {{ db_name }};"
-    
-- name: Create a table
+
+- name: Check if the table exists
+  mysql_query:
+    login_user: "{{ db_user }}"
+    login_password: "{{ db_pass }}"
+    login_db: "{{ db_name }}"
+    query: "SHOW TABLES LIKE '{{ table_name }}';"
+  register: table_check
+  ignore_errors: true  
+
+- name: Print table already exists message
+  debug:
+    msg: "The table '{{ table_name }}' already exists, no need to create."
+  when: table_check.query_result | length > 0
+
+- name: Create table if it doesn't exist
   mysql_query:
     login_user: "{{ db_user }}"
     login_password: "{{ db_pass }}"
     login_db: "{{ db_name }}"
     query: "{{ lookup('template', 'table.sql.j2') }}"
+  when: table_check.query_result | length == 0
+  register: create_table_result
 
-- name: Insert a data in table
+- name: Print table creation message
+  debug:
+    msg: "The table '{{ table_name }}' was created successfully."
+  when: create_table_result.changed
+
+- name: Check if records with specific IDs exist
+  mysql_query:
+    login_user: "{{ db_user }}"
+    login_password: "{{ db_pass }}"
+    login_db: "{{ db_name }}"
+    query: "SELECT id FROM student WHERE id IN (154, 187, 203);"
+  register: existing_records
+  ignore_errors: true
+
+- name: Print message when records are already inserted
+  debug:
+    msg: "Data already inserted."
+  when: existing_records.query_result | length > 0
+
+- name: Insert data into the table
   mysql_query:
     login_user: "{{ db_user }}"
     login_password: "{{ db_pass }}"
     login_db: "{{ db_name }}"
     query: "{{ lookup('template', 'data.sql.j2') }}"
+  when: existing_records.query_result | length == 0
+  register: insert_result
+
+- name: Print message when records are inserted
+  debug:
+    msg: "Data inserted successfully."
+  when: insert_result.changed
