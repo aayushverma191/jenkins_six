@@ -1,4 +1,4 @@
-def call(String branch, String repoUrl , ) {
+def call(String branch, String repoUrl) {
 
 pipeline {
     agent any
