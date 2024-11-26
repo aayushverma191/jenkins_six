@@ -14,7 +14,7 @@ pipeline {
     }
 
     parameters {
-        choice(name: 'select_environment', choices: ['create', 'delete'], description: 'Choose the environment action')
+        choice(name: 'select_environment', choices: ['create', 'delete'], description: 'Choose the action Create or Delete the Table')
     }
 
     stages {
