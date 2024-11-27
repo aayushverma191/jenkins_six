@@ -9,8 +9,6 @@ def call( String branch , String repoUrl ) {
           ANSIBLE_PLAY_CR_PATH = "${WORKSPACE}/assignment5/toolbook.yml"
           ANSIBLE_PLAY_DT_PATH = "${WORKSPACE}/assignment5/deletedata.yml"
           ANSIBLE_INVENTORY_PATH = "${WORKSPACE}/assignment5/aws_ec2.yml"
-          ANSIBLE_KEY = "${WORKSPACE}/assignment5/ninja.pem"
-          //REMOTE_USER = "ubuntu"
       }
   
       parameters {
@@ -37,7 +35,7 @@ def call( String branch , String repoUrl ) {
                   expression { params.select_environment == 'create' }
               }
               steps {
-                    ansiblePlaybook credentialsId:  '8d996de9-8b5a-4483-8b1a-4805fa3933df' , disableHostKeyChecking: true, installation: 'ansible', 
+                    ansiblePlaybook credentialsId: '8d996de9-8b5a-4483-8b1a-4805fa3933df' , disableHostKeyChecking: true, installation: 'ansible', 
                     inventory: '${ANSIBLE_INVENTORY_PATH}', playbook: '${ANSIBLE_PLAY_CR_PATH}'
               }
           }
@@ -46,7 +44,7 @@ def call( String branch , String repoUrl ) {
                   expression { params.select_environment == 'delete' }
               }
               steps {
-                     ansiblePlaybook credentialsId:  '8d996de9-8b5a-4483-8b1a-4805fa3933df' , disableHostKeyChecking: true, installation: 'ansible', 
+                     ansiblePlaybook credentialsId: '8d996de9-8b5a-4483-8b1a-4805fa3933df' , disableHostKeyChecking: true, installation: 'ansible', 
                     inventory: '${ANSIBLE_INVENTORY_PATH}', playbook: '${ANSIBLE_PLAY_DT_PATH}'
               }
           }
