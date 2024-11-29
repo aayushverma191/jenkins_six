@@ -30,7 +30,7 @@ def call( String branch , String repoUrl ) {
                   echo "Approval Done "
               }
           }
-          stage("for_create") {
+          stage("Create-Table") {
               when { 
                   expression { params.select_environment == 'create' }
               }
@@ -39,7 +39,7 @@ def call( String branch , String repoUrl ) {
                     inventory: '${ANSIBLE_INVENTORY_PATH}', playbook: '${ANSIBLE_PLAY_CR_PATH}'
               }
           }
-          stage("for_delete") {
+          stage("Delete-Table") {
               when { 
                   expression { params.select_environment == 'delete' }
               }
